@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ekurikulum Pro | SMKN 5 Surakarta</title>
+    <meta
+      name="description"
+      content="Portal informasi kurikulum SMKN 5 Surakarta — jadwal, jurusan, raport, dan data guru."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="sidebar.css" />
+  </head>
+  <body id="app-body">
+    <!-- ====== SIDEBAR OVERLAY (mobile) ====== -->
+    <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <!-- ====== SIDEBAR ====== -->
+    <aside id="sidebar" class="sidebar">
+      <!-- Sidebar Header -->
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="bi bi-mortarboard-fill"></i>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Ekurikulum</span>
+            <span class="brand-sub">SMKN 5 Surakarta</span>
+          </div>
+        </div>
+        <button
+          class="sidebar-close-btn"
+          onclick="closeSidebar()"
+          title="Tutup sidebar"
+        >
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+    
+      <div class="sidebar-content">
+        <!-- Main Navigation Group -->
+        <div class="sidebar-group">
+          <p class="sidebar-group-label">Menu Utama</p>
+          <ul class="sidebar-menu" id="sidebar-nav">
+            <li class="sidebar-menu-item">
+              <button
+                class="sidebar-menu-btn"
+                onclick="window.location.href = 'profil.html'"
+                id="nav-jurusan"
+              >
+                <i class="bi bi-person"></i>
+                <span>Profil</span>
+              </button>
+            </li>
+            <li class="sidebar-menu-item">
+              <button
+                class="sidebar-menu-btn active"
+                onclick="showSection('home')"
+                id="nav-home"
+              >
+                <i class="bi bi-house-door"></i>
+                <span>Beranda</span>
+              </button>
+            </li>
+            <li class="sidebar-menu-item">
+              <button
+                class="sidebar-menu-btn"
+                onclick="openKantinById(1)"
+                id="nav-jam"
+              >
+                <i class="bi bi-clock"></i>
+                <span>Jam Pelajaran</span>
+              </button>
+            </li>
+            <li class="sidebar-menu-item">
+              <button
+                class="sidebar-menu-btn"
+                onclick="openKantinById(2)"
+                id="nav-jadwal"
+              >
+                <i class="bi bi-calendar3"></i>
+                <span>Jadwal Pelajaran</span>
+              </button>
+            </li>
+            <li class="sidebar-menu-item">
+              <button
+                class="sidebar-menu-btn"
+                onclick="openKantinById(3)"
+                id="nav-guru"
+              >
+                <i class="bi bi-person-badge"></i>
+                <span>Jadwal Guru</span>
+              </button>
+            </li>
+            <li class="sidebar-menu-item">
+              <button
+                class="sidebar-menu-btn"
+                onclick="window.location.href = 'DAFTAR JURUSAN.html'"
+                id="nav-jurusan"
+              >
+                <i class="bi bi-building"></i>
+                <span>Daftar Jurusan</span>
+              </button>
+            </li>
+            <li class="sidebar-menu-item">
+              <button
+                class="sidebar-menu-btn"
+                onclick="window.location.href = 'Layout raport.html'"
+                id="nav-raport"
+              >
+                <i class="bi bi-journal-bookmark"></i>
+                <span>Informasi Raport</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Divider -->
+        <div class="sidebar-separator"></div>
+
+        <!-- Akun Group -->
+        <div class="sidebar-group">
+          <p class="sidebar-group-label">Akun</p>
+          <ul class="sidebar-menu">
+            <li
+              class="sidebar-menu-item"
+              id="history-nav-item"
+              style="display: none"
+            >
+              <button
+                class="sidebar-menu-btn"
+                onclick="showSection('history')"
+                id="nav-history"
+              >
+                <i class="bi bi-clock-history"></i>
+                <span>Riwayat Login</span>
+              </button>
+            </li>
+            <li class="sidebar-menu-item" id="login-nav-item">
+              <button
+                class="sidebar-menu-btn"
+                onclick="showLoginModal()"
+                id="nav-login"
+              >
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Login</span>
+              </button>
+            </li>
+            <li
+              class="sidebar-menu-item"
+              id="logout-nav-item"
+              style="display: none"
+            >
+              <button
+                class="sidebar-menu-btn danger"
+                onclick="doLogout()"
+                id="nav-logout"
+              >
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar Footer (User Info) -->
+      <div
+        class="sidebar-footer"
+        id="sidebar-footer-user"
+        style="display: none"
+      >
+        <div class="sidebar-separator"></div>
+        <div class="user-card">
+          <div class="user-avatar">
+            <i class="bi bi-person-fill"></i>
+          </div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">—</span>
+            <span class="user-role">Siswa</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ====== MAIN LAYOUT ====== -->
+    <div class="layout-wrapper" id="layout-wrapper">
+      <!-- Top Header Bar -->
+      <header class="topbar">
+        <button
+          class="topbar-trigger"
+          onclick="toggleSidebar()"
+          id="sidebar-trigger"
+          title="Toggle sidebar (Ctrl+B)"
+        >
+          <i class="bi bi-layout-sidebar"></i>
+        </button>
+
+        <!-- Breadcrumb -->
+        <div class="topbar-breadcrumb">
+          <span class="breadcrumb-root">Ekurikulum</span>
+          <i class="bi bi-chevron-right breadcrumb-sep"></i>
+          <span class="breadcrumb-current" id="breadcrumb-current"
+            >Beranda</span
+          >
+        </div>
+
+        <div class="topbar-actions">
+          <div id="topbar-user-badge" class="user-badge" style="display: none">
+            <i class="bi bi-person-circle"></i>
+            <span id="topbar-user-name"></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- ===== HOME SECTION ===== -->
+        <div id="home-section">
+          <!-- Welcome Banner -->
+          <div class="welcome-banner">
+            <div class="welcome-text">
+              <h1>Selamat Datang di Portal Ekurikulum 🔥</h1>
+              <p>
+                Akses jadwal, informasi jurusan, data guru, dan raport sekolah
+                di satu tempat.
+              </p>
+            </div>
+            <div class="welcome-icon">🎓</div>
+          </div>
+
+          <!-- Carousel -->
+          <div class="carousel-wrapper">
+            <div class="carousel-inner" id="carousel-inner">
+              <div class="carousel-item active">
+                <img
+                  src="WhatsApp Image 2026-05-08 at 20.23.51 (1).jpeg"
+                  alt="Foto Sekolah 1"
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="WhatsApp Image 2026-05-08 at 20.23.52 (2).jpeg"
+                  alt="Foto Sekolah 2"
+                />
+              </div>
+              <div class="carousel-item">
+                <img
+                  src="WhatsApp Image 2026-05-08 at 20.41.46.jpeg"
+                  alt="Foto Sekolah 3"
+                />
+              </div>
+            </div>
+            <button class="carousel-btn prev" onclick="moveCarousel(-1)">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="carousel-btn next" onclick="moveCarousel(1)">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+            <div class="carousel-dots" id="carousel-dots"></div>
+          </div>
+
+          <!-- Grid Cards -->
+          <div class="section-title">
+            <h2>Layanan Tersedia</h2>
+            <p>Pilih menu untuk melihat informasi</p>
+          </div>
+          <div class="cards-grid" id="kantin-container"></div>
+        </div>
+
+        <!-- ===== KATALOG SECTION ===== -->
+        <div id="katalog-section" class="d-none">
+          <div class="page-header">
+            <button class="back-btn" onclick="showSection('home')">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <div>
+              <h2 id="kantin-name-title">Menu</h2>
+              <p class="page-sub">Pilih item untuk melihat detail</p>
+            </div>
+          </div>
+          <div class="cards-grid" id="menu-container"></div>
+        </div>
+
+        <!-- ===== CHECKOUT SECTION ===== -->
+        <div id="checkout-section" class="d-none">
+          <div class="page-header">
+            <button class="back-btn" onclick="showSection('home')">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <div>
+              <h2>Checkout</h2>
+              <p class="page-sub">Konfirmasi data Anda</p>
+            </div>
+          </div>
+          <div id="checkout-content"></div>
+        </div>
+
+        <!-- ===== HISTORY SECTION ===== -->
+        <div id="history-section" class="d-none">
+          <div class="page-header">
+            <button class="back-btn" onclick="showSection('home')">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <div>
+              <h2>Riwayat Login</h2>
+              <p class="page-sub">Histori aktivitas akun Anda</p>
+            </div>
+          </div>
+          <div id="history-list"></div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>SMKN 5 Surakarta</h3>
+            <p>
+              Jl. Adi Sucipto No. 42<br />Surakarta<br />Telp: (0271) 713916
+            </p>
+          </div>
+           
+          <div class="footer-col">
+            <h3>Ikuti saya di:</h3
+              >
+            <ul>
+              <li><a href="https://www.instagram.com/ruzz__png?igsh=MTgyeGQyNGN1c240cQ==">Instagram</a></li>
+              <li><a href="https://www.facebook.com/share/1EAE8mxLyD/">Facebook</a></li>
+              <li><a href="https://youtube.com/@fairuuzzakifadhlullah?si=jmo0bX6CnVJfkvQ8">Youtube</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p> 2025 SMKN 5 Surakarta. Ekurikulum Pro.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ====== LOGIN MODAL ====== -->
+    <div class="modal-backdrop" id="loginModal" onclick="closeModal()"></div>
+    <div class="modal-box" id="loginBox">
+      <div class="modal-header">
+        <div class="modal-brand-icon">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <h3>Masuk Ekurikulum</h3>
+        <p>Silakan login untuk mengakses fitur lengkap</p>
+        <button class="modal-close" onclick="closeModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="loginUser">Nama Pengguna</label>
+          <div class="input-wrap">
+            <i class="bi bi-person"></i>
+            <input type="text" id="loginUser" placeholder="Min. 6 karakter" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="loginPass">Password</label>
+          <div class="input-wrap">
+            <i class="bi bi-lock"></i>
+            <input
+              type="password"
+              id="loginPass"
+              placeholder="Min. 8 karakter"
+            />
+          </div>
+        </div>
+        <button class="btn-primary-full" onclick="handleLogin()">
+          <i class="bi bi-box-arrow-in-right"></i> MASUK
+        </button>
+      </div>
+    </div>
+
+    <script src="sidebar-1.js"></script>
+  </body>
+</html>
